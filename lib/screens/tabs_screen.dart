@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_opensrc/screens/orders_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app_opensrc/models/user_model.dart';
 import 'package:ecommerce_app_opensrc/screens/user_about_screen.dart';
@@ -15,6 +16,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const ProductsGridScreen(),
+    const OrdersScreen(),
     AboutUserPage(
       currUser: User(
         email: 'test@test.com',
@@ -43,6 +45,10 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.grid_on),
             label: 'Products',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.cases_rounded),
+            label: 'Orders',
           ),
         ],
         currentIndex: _selectedIndex,

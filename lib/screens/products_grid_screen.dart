@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_opensrc/screens/carts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app_opensrc/data/dummy_products.dart';
 import 'package:ecommerce_app_opensrc/models/product_model.dart';
@@ -58,6 +59,16 @@ class _ProductsGridScreenState extends State<ProductsGridScreen> {
             },
           ),
         ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const CartScreen()),
+              (route) => false,
+            );
+          },
+          icon: const Icon(Icons.shopping_cart),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),

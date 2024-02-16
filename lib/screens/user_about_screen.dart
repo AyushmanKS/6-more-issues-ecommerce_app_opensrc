@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_opensrc/screens/carts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app_opensrc/models/user_model.dart';
 import 'package:ecommerce_app_opensrc/screens/landing_screen.dart';
@@ -31,6 +32,16 @@ class AboutUserPage extends StatelessWidget {
             },
           ),
         ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const CartScreen()),
+              (route) => false,
+            );
+          },
+          icon: const Icon(Icons.shopping_cart),
+        ),
       ),
       body: Column(
         children: [
