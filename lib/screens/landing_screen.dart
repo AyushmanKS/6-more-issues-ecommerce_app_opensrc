@@ -20,6 +20,11 @@ class LandingPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              const Icon(
+                Icons.shopping_basket_sharp,
+                size: 80,
+                color: Color.fromRGBO(28, 28, 28, 0),
+              ),
               const Text(
                 'Welcome to our App!',
                 style: TextStyle(
