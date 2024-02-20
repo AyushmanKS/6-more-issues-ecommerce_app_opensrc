@@ -22,6 +22,7 @@ class _TabsScreenState extends State<TabsScreen> {
         email: 'test@test.com',
         phoneNumber: '9999999999',
         username: 'ABC',
+        orders: [],
       ),
     ),
   ];
