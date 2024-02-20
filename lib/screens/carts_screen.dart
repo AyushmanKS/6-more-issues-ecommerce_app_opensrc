@@ -1,5 +1,7 @@
+import 'package:ecommerce_app_opensrc/components/cart_list_item.dart';
 import 'package:ecommerce_app_opensrc/data/dummy_products.dart';
-import 'package:ecommerce_app_opensrc/screens/products_grid_screen.dart';
+import 'package:ecommerce_app_opensrc/models/product_model.dart';
+import 'package:ecommerce_app_opensrc/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -10,18 +12,36 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  double total = 0;
-  Map<int, int> quantityMap = {}; // Map to store product quantity
+  late List<Product> _products;
 
   @override
   void initState() {
     super.initState();
-    calculateTotal();
+    _products = dummyProducts;
   }
 
-  void calculateTotal() {
-    total = dummyProducts.fold(
-        0, (previousValue, product) => previousValue + product.price);
+  void increaseQuantity(String productID) {
+    setState(() {
+      Product product =
+          _products.firstWhere((product) => product.id == productID);
+      product.quantity++;
+    });
+  }
+
+  void decreaseQuantity(String productID) {
+    setState(() {
+      Product product =
+          _products.firstWhere((product) => product.id == productID);
+      product.quantity--;
+    });
+  }
+
+  String getCartTotalPrice() {
+    String totalPrice = "";
+    for (Product product in _products) {
+      totalPrice += product.price + product.quantity;
+    }
+    return totalPrice;
   }
 
   @override
@@ -31,24 +51,12 @@ class _CartScreenState extends State<CartScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text('Cart'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const CartScreen()),
-                (route) => false,
-              );
-            },
-          ),
-        ],
         leading: IconButton(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProductsGridScreen(),
+                builder: (context) => const TabsScreen(),
               ),
             );
           },
@@ -59,60 +67,21 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 20,
+              itemCount: 5,
               itemBuilder: (context, index) {
-                final product = dummyProducts[index];
-                final productId = product.hashCode;
-                final quantity =
-                    quantityMap[productId] ?? 5; // Default quantity = 5
+                final product = _products[index];
 
-                return Card(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      maxRadius: 50,
-                      backgroundImage: product.image,
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (quantity > 0) {
-                                quantityMap[productId] = quantity - 1;
-                              }
-                            });
-                          },
-                          icon: const Icon(Icons.remove_circle_outline_rounded,
-                              size: 30),
-                        ),
-                        Text(
-                          quantity.toString(),
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              quantityMap[productId] = quantity + 1;
-                            });
-                          },
-                          icon: const Icon(Icons.add_circle_outline_rounded,
-                              size: 30),
-                        ),
-                      ],
-                    ),
-                    title: Text(
-                      product.name.toString(),
-                      style: const TextStyle(fontSize: 22, color: Colors.white),
-                    ),
-                    subtitle: Text('Price: ₹${dummyProducts[0].price}'),
-                  ),
+                return CartListItem(
+                  key: ValueKey(index),
+                  product: product,
+                  increaseQuantity: increaseQuantity,
+                  decreaseQuantity: decreaseQuantity,
                 );
               },
             ),
           ),
           const Divider(),
-          _CartTotal(totalPrice: total),
+          _CartTotal(totalPrice: getCartTotalPrice()),
         ],
       ),
     );
@@ -120,7 +89,7 @@ class _CartScreenState extends State<CartScreen> {
 }
 
 class _CartTotal extends StatelessWidget {
-  final double totalPrice;
+  final String totalPrice;
 
   const _CartTotal({Key? key, required this.totalPrice}) : super(key: key);
 
@@ -132,15 +101,15 @@ class _CartTotal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Total: ₹ ${totalPrice.toStringAsFixed(2)}",
-            style: const TextStyle(fontSize: 35, color: Colors.white),
+            "Total: ₹ ${totalPrice.substring(0, 8)}",
+            style: const TextStyle(fontSize: 25, color: Colors.white),
           ),
           const SizedBox(width: 15),
           ElevatedButton(
             onPressed: () {},
             child: const Text(
               "BUY",
-              style: TextStyle(color: Colors.white, fontSize: 35),
+              style: TextStyle(color: Colors.white, fontSize: 25),
             ),
           ),
         ],

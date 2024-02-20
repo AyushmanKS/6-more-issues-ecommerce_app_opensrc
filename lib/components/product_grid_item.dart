@@ -28,7 +28,7 @@ class ProductGridItem extends StatelessWidget {
               product.name,
             ),
             Text(
-              product.description,
+              product.description ?? "No description.",
               textAlign: TextAlign.center,
             ),
           ],

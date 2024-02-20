@@ -1,6 +1,6 @@
+import 'package:ecommerce_app_opensrc/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app_opensrc/models/product_model.dart';
-import 'package:ecommerce_app_opensrc/screens/products_grid_screen.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -19,7 +19,7 @@ class ProductDetailPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProductsGridScreen(),
+                builder: (context) => const TabsScreen(),
               ),
             );
           },
@@ -38,7 +38,7 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              product.description,
+              product.description ?? "No description.",
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 16,

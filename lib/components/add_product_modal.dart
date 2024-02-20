@@ -50,8 +50,10 @@ class AddProductModal extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               final newProduct = Product(
+                id: '7',
+                quantity: '2',
                 name: productName,
-                price: price,
+                price: price.toString(),
                 description: productDescription,
               );
               onProductAdded(newProduct);
