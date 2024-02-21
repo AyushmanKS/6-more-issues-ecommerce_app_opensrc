@@ -24,7 +24,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       Product product =
           _products.firstWhere((product) => product.id == productID);
-      product.quantity++;
+      product.quantity;
     });
   }
 
@@ -32,7 +32,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       Product product =
           _products.firstWhere((product) => product.id == productID);
-      product.quantity--;
+      product.quantity;
     });
   }
 
@@ -67,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: 20,
               itemBuilder: (context, index) {
                 final product = _products[index];
 
